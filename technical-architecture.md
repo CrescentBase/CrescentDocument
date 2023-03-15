@@ -52,7 +52,7 @@ async handleMethod(method, params) {
     }
 ```
 
-## &#x20;EntryPoint Contract
+## EntryPoint Contract
 
 EntryPoint is the core entry point for all functionalities. Each project deploys their own EntryPoint. Bundler, Wallet, and Paymaster all need to work around EntryPoint.
 
@@ -92,24 +92,23 @@ Main features include:
 
 It will create a new wallet for the user according to EIP-2470 if the user's wallet address has not been created.
 
-## &#x20;Paymaster Contract
+## Paymaster Contract
+
+Paymaster is a contract for gasless or customised payment for your users. It should be deployed by yourself to match your business. We will facilitate the coding and deployment of your Paymaster if you need.
 
 Paymaster has the following functions and features：
 
 * Pay gas fees to EntryPoint.
 * Only respond to messages from EntryPoint.
 * Confirm the intention to EntryPoint that pay for a certain UO.
-* stake in EntryPoint to become a paymasterer；
+* Stake in EntryPoint to become a Paymaster
+* Transfer the desired asset to your Paymaster as funds to pay for UOs.
+* Only after passing the validation of `validatePaymasterUserOp`, Paymaster will pay for users.  Validation is achieved by the preset pubkey set by `constructor` or `setVerifyingSigner()`. The corresponding private key **normally should be stored in your centralised server**, to check and sign paymaster UOs.
+* You can also customise any kind of Paymaster as you want.
 
-Note: Only after passing the validation of validatePaymasterUserOp, Paymaster will pay for users.
+### Proxy Architecture
 
-```solidity
-function validatePaymasterUserOp(UserOperation calldata userOp, bytes32 requestId, uint256 maxCost) external view returns (bytes memory context);
-```
-
-### &#x20;PaymasterProxy Contract
-
-The main contract of Paymaster，responsible for upgrading Paymaster contract.
+Paymaster is upgradeable because of its proxy design.
 
 ```solidity
     function upgradeDelegate(address newImplementation) public {
@@ -117,6 +116,8 @@ The main contract of Paymaster，responsible for upgrading Paymaster contract.
         _upgradeTo(newImplementation);
     }
 ```
+
+
 
 ## Wallet Contracts
 
