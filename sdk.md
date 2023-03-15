@@ -1,12 +1,12 @@
 # SDK
 
-### Crescent Wallet SDKs
+## Crescent Wallet SDKs
 
 Crescent Wallet supports multi-platform SDK.
 
 &#x20;
 
-| SDK         | State      | Document                        |
+| SDK         | Status     | Document                        |
 | ----------- | ---------- | ------------------------------- |
 | Android SDK | Done       | [Start now](sdk.md#android-sdk) |
 | iOS SDK     | Done       | [Start now](sdk.md#ios-sdk)     |
@@ -121,15 +121,21 @@ var tx = TransactionInfo()
 CrescentSDK.disconnect()
 ```
 
-### &#x20;
+## General Usage
 
-&#x20;
+### Define Your Paymaster
 
-&#x20;
+TBD
 
-&#x20;
+### Customise  UI
 
-&#x20;
+Crescent provides a full-featured UI customisation ability. Please reference the following doc.
+
+{% content-ref url="sdk-ui-doc.md" %}
+[sdk-ui-doc.md](sdk-ui-doc.md)
+{% endcontent-ref %}
+
+##
 
 &#x20;
 
