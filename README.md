@@ -1,9 +1,9 @@
 # Overview
 
-Crescent Wallet is a low threshold AA(Account Abstract) wallet based on EIP-4337.Provide a simple and fast blockchain onboarding option for users such as email login，OAuth login，etc.
+Crescent Wallet is an Account Abstract wallet based on EIP-4337, providing a simple and fast blockchain onboarding experience for users. Crescent will provide full web2-style but decentralised login/signup methods based on Ethereum and 4337.
 
-Crescent has client app that users can use directly, also has SDKs designed for dApp and game developers.
+Also, any basic onboarding features like gasless, fiat on/off ramp, AA data explorer, etc., will be included.
 
-Crescent uses DKIM and ZKP scheme to ensure the security of users' assets while removing seed phrase，private keys. Avoiding the property loss caused by private keys ，seed phrase loss and theft . Allow users to use arbitrary supported tokens to pay for the gas fee and compatible with all mainstream EVM chain.
+Crescent has a client app that users can use directly, and also SDKs designed for dApp and game developers.
 
 <figure><img src=".gitbook/assets/零知识证明加密.jpg" alt=""><figcaption><p>Our 4337 contract side solution</p></figcaption></figure>
