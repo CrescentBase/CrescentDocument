@@ -6,9 +6,13 @@ Note that it's not required to read this chapter to integrate Crescent SDK.
 
 ### Bundler
 
+Bundler packs all UserOperation(UOs) into a normal tx.
+
+<img src=".gitbook/assets/4337 flow.png" alt="" data-size="original">
+
 The Bundler calls EntryPoint to package user transactions, validates UserOperation (UO) off-chain, removes UOs that do not meet requirements or have issues, packages compliant UOs and submits them to the blockchain.&#x20;
 
-The main features include:
+Main features include:
 
 * eth\_sendUserOperation：send transactions.
 * eth\_estimateUserOperationGas：gas evaluation.
@@ -52,7 +56,11 @@ async handleMethod(method, params) {
 
 EntryPoint is the core entry point for all functionalities. Each project deploys their own EntryPoint. Bundler, Wallet, and Paymaster all need to work around EntryPoint.
 
-The main features include:
+EntryPoint, Paymaster, and Wallet contracts work in accord.
+
+&#x20;<img src=".gitbook/assets/4337contracts.png" alt="" data-size="original">
+
+Main features include:
 
 * simulateValidation：Simulate user transactions and validate UO off-chain.
 
