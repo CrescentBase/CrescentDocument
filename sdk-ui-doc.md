@@ -44,7 +44,7 @@ Choose a White or Black Theme for customization according to your brand style. Y
 
 Brand Color
 
-<figure><img src=".gitbook/assets/01-通用修改-品牌色.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/01-通用修改-品牌色 (1).png" alt=""><figcaption></figcaption></figure>
 
 Functional Color
 
@@ -102,7 +102,7 @@ Theme Color
 
 Text Color
 
-<figure><img src=".gitbook/assets/02-基于白色主题修改-文字色 (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/02-基于白色主题修改-文字色.png" alt=""><figcaption></figcaption></figure>
 
 Card Color
 
