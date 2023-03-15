@@ -200,19 +200,13 @@ A controller defines the latest Implementation address. Wallet in the following 
     }
 ```
 
-## DKIM
+## DKIM ZKP Verification
 
-### DKIM On-Chain Validation
+### What's DKIM?
 
-Domainkeys Identified Mail (DKIM) is an email authentication method designed to detect whether the sender address, subject, body, etc. of an email has been modified (email spoofing) .The mail will be signed by the sender's mail service provider when outrebounding. After the mail receiving server receives the DKIM-signed mail, it can verify whether the mail is indeed from the sender and the content has not been tampered with.&#x20;
+Domainkeys Identified Mail (DKIM) is an email authentication method designed to detect whether the sender address, subject, body, etc. of an email has been modified (email spoofing) .The mail will be signed by the sender's mail service provider when outrebounding. After the mail-receiving server receives the DKIM-signed mail, it can verify whether the mail is indeed from the sender and whether the content has not been tampered with.&#x20;
 
-Crescent implements dkim digital signature verification through smart contracts. realizes verification of email content and transactions on-chain, and then manages contract accounts through email.
-
-To avoid exposing user information while verifying ownership of email address, Crescent use ZKP technology to ensure user privacy and security in a decentralised way.
-
-<figure><img src=".gitbook/assets/DKIM验证 (1).jpg" alt=""><figcaption><p>DKIM verify on internet vs on blockchain</p></figcaption></figure>
-
-By clicking "View Original" or "View Source" in any email, you can directly view the .eml files which includes the DKIM-Signature field. (For more details, please refer to the [DKIM\_WIKI](https://en.wikipedia.org/wiki/DomainKeys\_Identified\_Mail).)
+By clicking "View Original" or "View Source" in any email client, you can directly view the .eml files which include the DKIM-Signature field. (For more details, please refer to the [DKIM\_WIKI](https://en.wikipedia.org/wiki/DomainKeys\_Identified\_Mail).)
 
 > DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
 >
@@ -234,9 +228,9 @@ By clicking "View Original" or "View Source" in any email, you can directly view
 * h: Header fields that are signed, chosen by the sender's service provider
 * b: Signature encoded in base64
 
-DKIM verification ensures that the email is from the sender and has not been tampered with.
+We implemented DKIM system on-chain with ZKP to verify email and maintain privacy.
 
-### DKIM Authoritative Record Contract
+### DKIM Canonical Record Contract
 
 Used to record DKIM-related data, such as pubkey, domain and selector.
 
@@ -265,7 +259,7 @@ contract DKIMManager is Ownable {
 
 ### DKIM Verifier Contract
 
-All encryption and verification-related functions are in this contract. User operations such as creating and changing devices,i.e., adding a new pub key for tx, require calling the verifier function. Verification success proves that the action was initiated by the account owner's email.
+All ZKP, cryptographic and verification functions are in this contract. Operations such as adding a new pub key for a wallet, require calling this contract to be verified. Verification success proves that the action was initiated by the account owner's email.
 
 ```solidity
    function verifier(
