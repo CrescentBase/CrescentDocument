@@ -78,18 +78,17 @@ Main features include:
     }
 ```
 
-&#x20;it will create a wallet address for users according EIP-2470 if user's wallet address has not been created while in simulateValidation.
-
 * handleOPs：Package compliant UOs and submit them on-chain.
 
 ```solidity
     function handleOps(UserOperation[] calldata ops, address payable beneficiary) public {
 
-
         uint256 opslen = ops.length;
         UserOpInfo[] memory opInfos = new UserOpInfo[](opslen);
 }
 ```
+
+It will create a new wallet for the user according to EIP-2470 if the user's wallet address has not been created.
 
 ## &#x20;Paymaster Contract
 
@@ -151,7 +150,7 @@ function addOwner(
     }
 ```
 
-* \_validateSignature: Verify if the signature is consistent, and only proceed with subsequent operations if it is consistent.
+* `_validateSignature()`: Verify if the signature is valid, and only proceed with subsequent operations if it is.
 
 ```solidity
  function _validateSignature(UserOperation calldata userOp, bytes32 requestId) internal view override {
@@ -181,7 +180,7 @@ Proxy has the ability to upgrade to the latest implementation automatically, whi
         _upgradeTo(newDelegateAddress);
     }
 
-    // Toggle auto update feature. Default value is false.
+    // Toggle auto update feature. The default value is false.
     function setAutoUpdateImplementation(bool value) public {
         require(msg.sender == _getAdmin());
         StorageSlot.getBooleanSlot(_AUTO_UPDATE_SLOT).value = value;
@@ -190,10 +189,10 @@ Proxy has the ability to upgrade to the latest implementation automatically, whi
 
 ### **WalletController** Contract
 
-A controller defines the latest Implementation address. Wallet in the following situation will set `implementation` address according to this controller:
+A controller defines the latest Implementation address. Wallet in the following situations will set `implementation` address according to this controller:
 
 * A newly created wallet
-* An existing wallet with auto update enabled
+* An existing wallet with auto-update enabled
 
 ```solidity
     function setImplementation(address _implementation) public onlyOwner {
@@ -201,7 +200,7 @@ A controller defines the latest Implementation address. Wallet in the following 
     }
 ```
 
-## &#x20;DKIM
+## DKIM
 
 ### DKIM On-Chain Validation
 
@@ -237,12 +236,9 @@ By clicking "View Original" or "View Source" in any email, you can directly view
 
 DKIM verification ensures that the email is from the sender and has not been tampered with.
 
-### &#x20;DKIM Authoritative Record Contract
+### DKIM Authoritative Record Contract
 
-Used to record DKIM-related data. Among them:&#x20;
-
-* upgradeDKIM: Records and saves DKIM data..&#x20;
-* dkim: Provides interface data for the DKIM verification contract.&#x20;
+Used to record DKIM-related data, such as pubkey, domain and selector.
 
 ```solidity
 contract DKIMManager is Ownable {
@@ -253,12 +249,12 @@ contract DKIMManager is Ownable {
 
     constructor() {}
 
-
+    // Write new DKIM data
     function upgradeDKIM(bytes memory name, bytes memory _dkim) public onlyOwner {
         allDkim[name] = _dkim;
     }
 
-
+    // Get DKIM data
     function dkim(bytes memory name) public view returns (bytes memory) {
         return allDkim[name];
     }
@@ -267,16 +263,9 @@ contract DKIMManager is Ownable {
 }
 ```
 
-### &#x20;DKIM Verifier Contract
+### DKIM Verifier Contract
 
-All encryption and verification-related functions are in this contract. User operations such as creating and changing devices,i.e., adding a new key, require calling the verifier function. Verification success proves that the action was initiated by the account's owner.&#x20;
-
-Among them
-
-* verifyProof: Responsible for zero-knowledge proof verification (ZKP).&#x20;
-* equalBase64: Responsible for verifying whether the bh content in DKIM is correct.&#x20;
-* containsAddress: Responsible for verifying whether it is a user-initiated behaviour.&#x20;
-* sha256Verify: Verifies whether the b parameter in DKIM correct or not .
+All encryption and verification-related functions are in this contract. User operations such as creating and changing devices,i.e., adding a new pub key for tx, require calling the verifier function. Verification success proves that the action was initiated by the account owner's email.
 
 ```solidity
    function verifier(
@@ -304,3 +293,5 @@ Among them
         return true;
     }
 ```
+
+To fully understand Crescent ZKP DKIM system, please read [https://github.com/CrescentBase/DKIM-Example](https://github.com/CrescentBase/DKIM-Example).
