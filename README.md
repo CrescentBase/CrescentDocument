@@ -6,4 +6,35 @@ Also, any basic onboarding features like gasless, fiat on/off ramp, AA data expl
 
 Crescent has a client app that users can use directly, and also SDKs designed for dApp and game developers.
 
-<figure><img src=".gitbook/assets/零知识证明加密.jpg" alt=""><figcaption><p>Our 4337 contract side solution</p></figcaption></figure>
+## Keyless, no seed phrase and private key
+
+Users log in with email accounts. Seed phrases and private keys are hidden from users' workflow.
+
+Crescent will develop more methods to log in such as OAuth, OAuth, facial recognition, SMS, etc.
+
+## Gasless, frictionless onboarding and more usage&#x20;
+
+Gasless is crucial to the mass adoption of Web3.
+
+As a smart contract wallet that supports EIP 4337 protocol, Paymaster will pay gas for users to achieve a gasless experience when users start a transaction.&#x20;
+
+Paymaster not only supports payment in native tokens for gas but also supports other tokens or payments such as NFT.&#x20;
+
+We provide some basic paymaster templates for different usage and scenarios, which developers can customize, for example:
+
+* Gas-free for users who first use your dApp
+* Set up a contract whitelist, when the user interacts with the contract in a whitelist, gas will be paid for the user automatically
+* Customize gas policy, provide gas discounts for new users, total free policy and etc.
+
+## Multi-chain support
+
+For now, we support the following chains:
+
+* Ethereum
+* Arbitrum
+* BSC
+* Polygon&#x20;
+
+## Fiat On/Off Ramp Services
+
+We have integrated Transak and more providers will be included later.

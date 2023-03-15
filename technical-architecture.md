@@ -56,6 +56,8 @@ async handleMethod(method, params) {
 
 EntryPoint is the core entry point for all functionalities. Each project deploys their own EntryPoint. Bundler, Wallet, and Paymaster all need to work around EntryPoint.
 
+<figure><img src=".gitbook/assets/零知识证明加密.jpg" alt=""><figcaption><p>Crescent 4337 Contracts Architecture</p></figcaption></figure>
+
 EntryPoint, Paymaster, and Wallet contracts work in accord.
 
 <figure><img src=".gitbook/assets/4337contracts.png" alt=""><figcaption><p>Workflow of 4337 contracts</p></figcaption></figure>
