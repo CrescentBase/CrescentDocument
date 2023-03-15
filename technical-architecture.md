@@ -185,7 +185,15 @@ Work with WalletProxy to upgrade wallet.
 
 ## &#x20;DKIM
 
-### DKIM Detail
+### DKIM On-Chain Validation
+
+Domainkeys Identified Mail (DKIM) is an email authentication method designed to detect whether the sender address, subject, body, etc. of an email has been modified (email spoofing) .The mail will be signed by the sender's mail service provider when outrebounding. After the mail receiving server receives the DKIM-signed mail, it can verify whether the mail is indeed from the sender and the content has not been tampered with.&#x20;
+
+Crescent implements dkim digital signature verification through smart contracts. realizes verification of email content and transactions on-chain, and then manages contract accounts through email.
+
+To avoid exposing user information while verifying ownership of email address, Crescent use ZKP technology to ensure user privacy and security in a decentralised way.
+
+<figure><img src=".gitbook/assets/DKIM验证 (1).jpg" alt=""><figcaption><p>DKIM verify on internet vs on blockchain</p></figcaption></figure>
 
 By clicking "View Original" or "View Source" in any email, you can directly view the .eml files which includes the DKIM-Signature field. (For more details, please refer to the [DKIM\_WIKI](https://en.wikipedia.org/wiki/DomainKeys\_Identified\_Mail).)
 
