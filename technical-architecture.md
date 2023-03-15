@@ -4,7 +4,7 @@ Crescent is an open-source wallet, and this chapter provides an analysis of the 
 
 Note that it's not required to read this chapter to integrate Crescent SDK.
 
-### Bundler
+## Bundler
 
 Bundler packs all UserOperation(UOs) into a normal tx.
 
@@ -52,7 +52,7 @@ async handleMethod(method, params) {
     }
 ```
 
-### &#x20;EntryPoint Contract
+## &#x20;EntryPoint Contract
 
 EntryPoint is the core entry point for all functionalities. Each project deploys their own EntryPoint. Bundler, Wallet, and Paymaster all need to work around EntryPoint.
 
@@ -91,7 +91,7 @@ Main features include:
 }
 ```
 
-### &#x20;Paymaster Contract
+## &#x20;Paymaster Contract
 
 Paymaster has the following functions and features：
 
@@ -117,11 +117,19 @@ The main contract of Paymaster，responsible for upgrading Paymaster contract.
     }
 ```
 
-### &#x20;Wallet Contract
+## Wallet Contracts
 
-This is the wallet user uses. The contract address is the same as wallet address.
+Crescent wallet contracts use proxy contract architecture.&#x20;
 
-It has the following features and functions
+There are three wallet contracts:
+
+* Wallet: Implementation contract.
+* WalletProxy: Proxy contract. Proxy has the ability to upgrade to the latest implementation automatically, which is disabled by default.
+* WalletController: A controller defines the latest Implementation address.
+
+### Wallet Contract
+
+The implementation contract of WalletProxy, delegates the following functions:
 
 * Pay gas fees to EntryPoint.
 * Only respond to messages from EntryPoint.
@@ -143,7 +151,7 @@ function addOwner(
     }
 ```
 
-* \_validateSignature：Verify if the signature is consistent, and only proceed with subsequent operations if it is consistent.
+* \_validateSignature: Verify if the signature is consistent, and only proceed with subsequent operations if it is consistent.
 
 ```solidity
  function _validateSignature(UserOperation calldata userOp, bytes32 requestId) internal view override {
@@ -162,28 +170,30 @@ function addOwner(
     }
 ```
 
-* Normal receiving sending function.
-
 ### &#x20;**WalletProxy** Contract
 
-Main contract of Wallet responsible for upgrading wallet contract, supporting manual and automatic upgrades. WalletController contract is required for automatic upgrades. Note: Manual upgrade as default .
+Proxy has the ability to upgrade to the latest implementation automatically, which is disabled by default to avoid any kind of malicious attack from any side including us.
 
 ```solidity
+    // Manually upgrade to new impl
     function upgradeDelegate(address newDelegateAddress) public {
         require(msg.sender == _getAdmin());
         _upgradeTo(newDelegateAddress);
     }
 
-
+    // Toggle auto update feature. Default value is false.
     function setAutoUpdateImplementation(bool value) public {
         require(msg.sender == _getAdmin());
         StorageSlot.getBooleanSlot(_AUTO_UPDATE_SLOT).value = value;
     }
 ```
 
-### &#x20;**WalletController** Contract
+### **WalletController** Contract
 
-Work with WalletProxy to upgrade wallet.
+A controller defines the latest Implementation address. Wallet in the following situation will set `implementation` address according to this controller:
+
+* A newly created wallet
+* An existing wallet with auto update enabled
 
 ```solidity
     function setImplementation(address _implementation) public onlyOwner {
