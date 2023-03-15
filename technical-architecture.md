@@ -261,6 +261,12 @@ contract DKIMManager is Ownable {
 
 All ZKP, cryptographic and verification functions are in this contract. Operations such as adding a new pub key for a wallet, require calling this contract to be verified. Verification success proves that the action was initiated by the account owner's email.
 
+We divided the verifier into plain solidity verifier and ZKP solidity verifier.
+
+<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+
+All parameters go through this `verifier` function. `verifyProof` will call the ZKP verifier and the rest are plain solidity logic.
+
 ```solidity
    function verifier(
         address publicKey,
@@ -288,4 +294,4 @@ All ZKP, cryptographic and verification functions are in this contract. Operatio
     }
 ```
 
-To fully understand Crescent ZKP DKIM system, please read [https://github.com/CrescentBase/DKIM-Example](https://github.com/CrescentBase/DKIM-Example).
+Full details, circuits, desgin rationale see [https://github.com/CrescentBase/DKIM-Example](https://github.com/CrescentBase/DKIM-Example).
