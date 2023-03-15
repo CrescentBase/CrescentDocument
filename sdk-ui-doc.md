@@ -6,6 +6,8 @@ To ensure visual consistency, we use a specific color palette to define colors a
 
 ## Design Guidelines <a href="#qag33" id="qag33"></a>
 
+Note: The following color names, such as G1, S1, etc., are all corresponding parameter names.
+
 ### Black Theme <a href="#ogiyn" id="ogiyn"></a>
 
 <figure><img src=".gitbook/assets/02-颜色规范-黑色主题.png" alt=""><figcaption></figcaption></figure>
