@@ -8,7 +8,7 @@ Note that it's not required to read this chapter to integrate Crescent SDK.
 
 Bundler packs all UserOperation(UOs) into a normal tx.
 
-<figure><img src=".gitbook/assets/4337 flow.png" alt=""><figcaption><p>Bundler &#x26; 4337 Transaction</p></figcaption></figure>
+<figure><img src=".gitbook/assets/4337_workflow.png" alt=""><figcaption></figcaption></figure>
 
 The Bundler calls EntryPoint to package user transactions, validates UserOperation (UO) off-chain, removes UOs that do not meet requirements or have issues, packages compliant UOs and submits them to the blockchain.&#x20;
 
