@@ -1,4 +1,4 @@
-# SDK
+# SDK Integration
 
 ## Crescent Wallet SDKs
 
@@ -6,11 +6,11 @@ Crescent Wallet supports multi-platform SDK.
 
 &#x20;
 
-| SDK         | Status     | Document                        |
-| ----------- | ---------- | ------------------------------- |
-| Android SDK | Done       | [Start now](sdk.md#android-sdk) |
-| iOS SDK     | Done       | [Start now](sdk.md#ios-sdk)     |
-| Unity SDK   | Developing | Developing                      |
+| SDK         | Status     | Document                                    |
+| ----------- | ---------- | ------------------------------------------- |
+| Android SDK | Done       | [Start now](sdk-integration.md#android-sdk) |
+| iOS SDK     | Done       | [Start now](sdk-integration.md#ios-sdk)     |
+| Unity SDK   | Developing | Developing                                  |
 
 ### &#x20;Android SDK
 
@@ -131,8 +131,8 @@ TBD
 
 Crescent provides a full-featured UI customisation ability. Please reference the following doc.
 
-{% content-ref url="sdk-ui-guide.md" %}
-[sdk-ui-guide.md](sdk-ui-guide.md)
+{% content-ref url="sdk-ui-doc.md" %}
+[sdk-ui-doc.md](sdk-ui-doc.md)
 {% endcontent-ref %}
 
 ##

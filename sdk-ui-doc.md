@@ -1,4 +1,4 @@
-# SDK UI Doc
+# SDK UI Guide
 
 ## Overview&#x20;
 
