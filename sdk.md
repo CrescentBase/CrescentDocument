@@ -70,7 +70,7 @@ String address = info.address
 	}
 ```
 
-5. Wallet disconnects
+5. Disconnect wallet
 
 ```javascript
 CrescentSdk.getInstance().disconnect();
@@ -115,7 +115,7 @@ var tx = TransactionInfo()
     })
 ```
 
-5. Send transaction
+5. Disconnect wallet
 
 ```swift
 CrescentSDK.disconnect()

@@ -94,7 +94,7 @@ Empty State
 
 Theme Color
 
-![](<.gitbook/assets/01-基于白色主题修改-主题色 (1).png>)
+![](.gitbook/assets/01-基于白色主题修改-主题色.png)
 
 #### **Neutral Color**
 
@@ -104,7 +104,7 @@ Text Color
 
 Card Color
 
-![](<.gitbook/assets/03-基于白色主题修改-卡片色 (1).png>)
+![](.gitbook/assets/03-基于白色主题修改-卡片色.png)
 
 #### **Images**
 
@@ -118,6 +118,6 @@ Icon
 
 Empty Placeholder
 
-![](.gitbook/assets/06-基于白色主题修改-空状态.png)
+![](<.gitbook/assets/06-基于白色主题修改-空状态 (1).png>)
 
 ****

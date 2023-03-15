@@ -12,7 +12,7 @@ Crescent implements dkim digital signature verification through smart contracts.
 
 To avoid exposing user information while verifying ownership of email address, Crescent use ZKP technology to ensure user privacy and security in a decentralised way.
 
-<figure><img src=".gitbook/assets/DKIM验证.jpg" alt=""><figcaption><p>DKIM verify on internet vs on blockchain</p></figcaption></figure>
+<figure><img src=".gitbook/assets/DKIM验证 (1).jpg" alt=""><figcaption><p>DKIM verify on internet vs on blockchain</p></figcaption></figure>
 
 #### More ways to log in
 
