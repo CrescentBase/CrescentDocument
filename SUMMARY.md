@@ -3,5 +3,5 @@
 * [Overview](README.md)
 * [Features](features-and-functions.md)
 * [SDK](sdk.md)
-* [SDK UI Doc](sdk-ui-doc.md)
+* [SDK UI Guide](sdk-ui-guide.md)
 * [Technical Architecture](technical-architecture.md)

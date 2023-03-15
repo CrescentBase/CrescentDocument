@@ -131,8 +131,8 @@ TBD
 
 Crescent provides a full-featured UI customisation ability. Please reference the following doc.
 
-{% content-ref url="sdk-ui-doc.md" %}
-[sdk-ui-doc.md](sdk-ui-doc.md)
+{% content-ref url="sdk-ui-guide.md" %}
+[sdk-ui-guide.md](sdk-ui-guide.md)
 {% endcontent-ref %}
 
 ##

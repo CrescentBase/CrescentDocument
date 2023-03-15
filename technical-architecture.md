@@ -263,7 +263,7 @@ All ZKP, cryptographic and verification functions are in this contract. Operatio
 
 We divided the verifier into plain solidity verifier and ZKP solidity verifier.
 
-<figure><img src=".gitbook/assets/image.png" alt=""><figcaption></figcaption></figure>
+<figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
 
 All parameters go through this `verifier` function. `verifyProof` will call the ZKP verifier and the rest are plain solidity logic.
 
