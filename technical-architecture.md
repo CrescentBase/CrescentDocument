@@ -257,15 +257,15 @@ contract DKIMManager is Ownable {
 }
 ```
 
-### &#x20;DKIM Verifie Contract
+### &#x20;DKIM Verifier Contract
 
-All encryption and verification-related functions are in this contract. User operations such as creating and changing devices require calling the verifier function.Verification success proves that the action was initiated by the account's owner.&#x20;
+All encryption and verification-related functions are in this contract. User operations such as creating and changing devices,i.e., adding a new key, require calling the verifier function. Verification success proves that the action was initiated by the account's owner.&#x20;
 
 Among them
 
 * verifyProof: Responsible for zero-knowledge proof verification (ZKP).&#x20;
 * equalBase64: Responsible for verifying whether the bh content in DKIM is correct.&#x20;
-* containsAddress: Responsible for verifying whether it is a user-initiated behavior.&#x20;
+* containsAddress: Responsible for verifying whether it is a user-initiated behaviour.&#x20;
 * sha256Verify: Verifies whether the b parameter in DKIM correct or not .
 
 ```solidity
