@@ -8,11 +8,11 @@ To ensure visual consistency, we use a specific color palette to define colors a
 
 ### Black Theme <a href="#ogiyn" id="ogiyn"></a>
 
-![](.gitbook/assets/02-颜色规范-黑色主题.png)
+<figure><img src=".gitbook/assets/02-颜色规范-黑色主题.png" alt=""><figcaption></figcaption></figure>
 
 ### White Theme <a href="#igpxl" id="igpxl"></a>
 
-![](.gitbook/assets/01-颜色规范-白色主题.png)
+<figure><img src=".gitbook/assets/01-颜色规范-白色主题.png" alt=""><figcaption></figcaption></figure>
 
 ### Common components for Black and White Theme&#x20;
 
@@ -42,15 +42,15 @@ Choose a White or Black Theme for customization according to your brand style. Y
 
 Brand Color
 
-![](.gitbook/assets/01-通用修改-品牌色.png)
+<figure><img src=".gitbook/assets/01-通用修改-品牌色.png" alt=""><figcaption></figcaption></figure>
 
 Functional Color
 
-![](.gitbook/assets/02-通用修改-功能色.png)
+<figure><img src=".gitbook/assets/02-通用修改-功能色.png" alt=""><figcaption></figcaption></figure>
 
 Images
 
-![](.gitbook/assets/03-通用修改-图片.png)
+<figure><img src=".gitbook/assets/03-通用修改-图片.png" alt=""><figcaption></figcaption></figure>
 
 Loading
 
@@ -62,17 +62,17 @@ Loading
 
 Theme Color
 
-![](.gitbook/assets/01-基于黑色主题修改-主题色.png)
+<figure><img src=".gitbook/assets/01-基于黑色主题修改-主题色.png" alt=""><figcaption></figcaption></figure>
 
 #### **Neutral Color**
 
 Text Color
 
-![](.gitbook/assets/02-基于黑色主题修改-文字色.png)
+<figure><img src=".gitbook/assets/02-基于黑色主题修改-文字色.png" alt=""><figcaption></figcaption></figure>
 
 Card Color
 
-![](.gitbook/assets/03-基于黑色主题修改-卡片色.png)
+<figure><img src=".gitbook/assets/03-基于黑色主题修改-卡片色.png" alt=""><figcaption></figcaption></figure>
 
 #### **Images**
 
@@ -94,17 +94,17 @@ Empty State
 
 Theme Color
 
-![](.gitbook/assets/01-基于白色主题修改-主题色.png)
+<figure><img src=".gitbook/assets/01-基于白色主题修改-主题色.png" alt=""><figcaption></figcaption></figure>
 
 #### **Neutral Color**
 
 Text Color
 
-![](<.gitbook/assets/02-基于白色主题修改-文字色 (1).png>)
+<figure><img src=".gitbook/assets/02-基于白色主题修改-文字色 (1).png" alt=""><figcaption></figcaption></figure>
 
 Card Color
 
-![](.gitbook/assets/03-基于白色主题修改-卡片色.png)
+<figure><img src=".gitbook/assets/03-基于白色主题修改-卡片色.png" alt=""><figcaption></figcaption></figure>
 
 #### **Images**
 
