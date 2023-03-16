@@ -6,6 +6,8 @@ Also, any basic onboarding features like gasless, fiat on/off ramp, AA data expl
 
 Crescent has a client app that users can use directly, and also SDKs designed for dApp and game developers.
 
+<figure><img src=".gitbook/assets/WechatIMG1025.jpeg" alt=""><figcaption></figcaption></figure>
+
 ## Keyless, no seed phrase and private key
 
 Users log in with email accounts. Seed phrases and private keys are hidden from users' workflow.
