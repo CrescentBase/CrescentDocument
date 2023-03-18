@@ -129,7 +129,7 @@ CrescentSDK.disconnect()
 
 #### DeployedBytecode&#x20;
 
-Please check input date refer to [Ethersacn Transaction](https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb).
+Please check "input date" refer to [Ethersacn Transaction](https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb).
 
 #### **PaymasterProxy Code** <a href="#blob-path" id="blob-path"></a>
 
