@@ -112,7 +112,6 @@ import {defaultAbiCoder, keccak256} from "ethers/lib/utils.js";
 //"web3": "^1.3.4",
 import Web3 from "web3";
 
-
 export function getHash(op) {
     return keccak256(defaultAbiCoder.encode([
         'address', // sender
@@ -138,17 +137,16 @@ export function getHash(op) {
         op.paymaster
     ]));
 }
+
 export function sign(privateKey, data) {
     const signature = new Web3().eth.accounts.sign(data, privateKey);
     return signature.signature;
 }
 
-
 export function signOp(op, privateKey) {
     const data = getHash(op);
     return sign(privateKey, data);
 }
-
 
 export function test() {
     const op = { ... };
