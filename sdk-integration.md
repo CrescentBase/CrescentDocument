@@ -22,6 +22,7 @@ Crescent Wallet supports multi-platform SDK.
 ```javascript
 CrescentConfigure config = new CrescentConfigure();
 config.style  =  “”;  //Custom Styles
+config.paymasterUrl = “https://...”; //Paymaster Address
 CrescentSdk.getInstance().init(config)；
 ```
 
@@ -47,7 +48,7 @@ String address = info.address
 ```javascript
     // TransactionInfo Related type definition
 	public class TransactionInfo {
-	    private String from;
+	    private String chainId;
 	    private String to;
 	    private String value;
 	    private String data;
@@ -86,6 +87,7 @@ CrescentSdk.getInstance().disconnect();
 ```swift
 var config = CrescentConfigure()
      config.style = "" //Custom Styles
+     config.paymasterUrl = "https://...” //Paymaster Address
      CrescentSDK.config(configure: config)
 ```
 
@@ -104,7 +106,7 @@ CrescentSDK.connect(connectSuccessBlock: { userinfo in
 
 ```swift
 var tx = TransactionInfo()
-    tx.from = ""
+    tx.chainId= ""
     tx.to = ""
     tx.value = ""
     tx.data = "";
@@ -128,6 +130,10 @@ CrescentSDK.disconnect()
 #### DeployedBytecode
 
 Refer to Input Data [https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb](https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb)
+
+&#x20;You may check the code here
+
+{% embed url="https://github.com/CrescentBase/account-abstraction" %}
 
 ### Customise  UI
 
