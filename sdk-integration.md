@@ -21,8 +21,8 @@ Crescent Wallet supports multi-platform SDK.
 
 ```javascript
 CrescentConfigure config = new CrescentConfigure();
-config.style  =  “”;  //Custom Styles
-config.paymasterUrl = “https://...”; //Paymaster Address
+config.style  =  "";  //Custom Styles
+config.paymasterUrl = "https://..."; //Paymaster Address
 CrescentSdk.getInstance().init(config)；
 ```
 
@@ -87,7 +87,7 @@ CrescentSdk.getInstance().disconnect();
 ```swift
 var config = CrescentConfigure()
      config.style = "" //Custom Styles
-     config.paymasterUrl = "https://...” //Paymaster Address
+     config.paymasterUrl = "https://..." //Paymaster Address
      CrescentSDK.config(configure: config)
 ```
 
