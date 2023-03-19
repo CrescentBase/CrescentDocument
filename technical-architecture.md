@@ -74,9 +74,8 @@ Main features include:
         bytes32 requestId = getRequestId(userOp);
         (prefund,,) = _validatePrepayment(0, userOp, requestId);
         preOpGas = preGas - gasleft() + userOp.preVerificationGas;
-
-
-        require(msg.sender == address(0), "must be called off-chain with from=zero-addr");
+        
+        revert ValidationResult(preOpGas, prefund);
     }
 ```
 
