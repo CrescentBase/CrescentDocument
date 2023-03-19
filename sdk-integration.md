@@ -127,13 +127,105 @@ CrescentSDK.disconnect()
 
 ### Define Your Paymaster
 
-#### DeployedBytecode&#x20;
+1. Deploy your own Paymaster contract
 
-Please check "input date" refer to [Ethersacn Transaction](https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb).
+[DeployedBytecode](https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb) and correspond [PaymasterProxy Code](https://github.com/CrescentBase/account-abstraction/blob/main/contracts/core/CrescentPaymasterProxy.sol)
 
-#### **PaymasterProxy Code** <a href="#blob-path" id="blob-path"></a>
+2. Deploy the signature server
 
-Refer to [CrescentPaymasterProxy.sol](https://github.com/CrescentBase/account-abstraction/blob/main/contracts/core/CrescentPaymasterProxy.sol) on github.
+* Example server URL：https://...
+
+```json
+method: POST
+Accept: application/json
+Content-Type: application/json
+Body: { op:{...}, email, public_key, chain_id }
+Response: { data:{ .... }  } 
+```
+
+* Examples of op and data content
+
+```json
+"sender": "0x......6B",
+"add_owner": "0x......82",
+"nonce": "0x......f0",
+"initCode": "0x......12",
+"callData": "0x......00",
+"callGas": "2000000",
+"verificationGas": "1000000",
+"preVerificationGas": "21000",
+"maxFeePerGas": "1199460050",
+"maxPriorityFeePerGas": "1000000000",
+"paymaster": "0x......70",
+"paymasterData": "0x......1c",
+"signature": "0x"
+```
+
+* Example of signature server
+
+```solidity
+//"ethers": "^5.4.1",
+import {defaultAbiCoder, keccak256} from "ethers/lib/utils.js";
+//"web3": "^1.3.4",
+import Web3 from "web3";
+ 
+export function getHash(op) {
+    return keccak256(defaultAbiCoder.encode([
+        'address', // sender
+        'uint256', // nonce
+        'bytes32', // initCode
+        'bytes32', // callData
+        'uint256', // callGas
+        'uint', // verificationGas
+        'uint', // preVerificationGas
+        'uint256', // maxFeePerGas
+        'uint256', // maxPriorityFeePerGas
+        'address' // paymaster
+    ], [
+        op.sender,
+        op.nonce,
+        keccak256(op.initCode),
+        keccak256(op.callData),
+        op.callGas,
+        op.verificationGas,
+        op.preVerificationGas,
+        op.maxFeePerGas,
+        op.maxPriorityFeePerGas,
+        op.paymaster
+    ]));
+}
+ 
+ 
+export function sign(privateKey, data) {
+    const signature = new Web3().eth.accounts.sign(data, privateKey);
+    return signature.signature;
+}
+ 
+export function signOp(op, privateKey) {
+    const data = getHash(op);
+    return sign(privateKey, data);
+}
+ 
+export function test() {
+    const op = { ... };
+    const privateKey = "....";
+    //your paymaster address
+    op.paymaster = "0x...";
+    const signature = signOp(op, privateKey);
+    op.paymasterData = signature;
+    return op;
+}
+```
+
+&#x20;
+
+3. SDK call example
+
+&#x20;refer to [Initialize the SDK](sdk-integration.md#installation-and-usage)
+
+```
+config.paymasterUrl = "https://..."; //Paymaster Address
+```
 
 ### Customise  UI
 

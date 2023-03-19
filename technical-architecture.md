@@ -105,59 +105,6 @@ Paymaster has the following functions and features：
 * Only after passing the validation of `validatePaymasterUserOp`, Paymaster will pay for users.  Validation is achieved by the preset pubkey set by `constructor` or `setVerifyingSigner()`. The corresponding private key **normally should be stored in your centralised server**, to check and sign paymaster UOs.
 * You can also customise any kind of Paymaster as you want.
 
-```solidity
-//"ethers": "^5.4.1",
-import {defaultAbiCoder, keccak256} from "ethers/lib/utils.js";
-//"web3": "^1.3.4",
-import Web3 from "web3";
-
-export function getHash(op) {
-    return keccak256(defaultAbiCoder.encode([
-        'address', // sender
-        'uint256', // nonce
-        'bytes32', // initCode
-        'bytes32', // callData
-        'uint256', // callGas
-        'uint', // verificationGas
-        'uint', // preVerificationGas
-        'uint256', // maxFeePerGas
-        'uint256', // maxPriorityFeePerGas
-        'address' // paymaster
-    ], [
-        op.sender,
-        op.nonce,
-        keccak256(op.initCode),
-        keccak256(op.callData),
-        op.callGas,
-        op.verificationGas,
-        op.preVerificationGas,
-        op.maxFeePerGas,
-        op.maxPriorityFeePerGas,
-        op.paymaster
-    ]));
-}
-
-export function sign(privateKey, data) {
-    const signature = new Web3().eth.accounts.sign(data, privateKey);
-    return signature.signature;
-}
-
-export function signOp(op, privateKey) {
-    const data = getHash(op);
-    return sign(privateKey, data);
-}
-
-export function test() {
-    const op = { ... };
-    const privateKey = "....";
-    //your paymaster address
-    op.paymaster = "0x...";
-    const signature = signOp(op, privateKey);
-    op.paymasterData = signature;
-    return op;
-}
-```
-
 ### Proxy Architecture
 
 Paymaster is upgradeable because of its proxy design.
@@ -168,8 +115,6 @@ Paymaster is upgradeable because of its proxy design.
         _upgradeTo(newImplementation);
     }
 ```
-
-
 
 ## Wallet Contracts
 
