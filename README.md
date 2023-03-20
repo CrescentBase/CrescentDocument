@@ -12,7 +12,7 @@ Crescent has a client app that users can use directly, and also SDKs designed fo
 
 Users log in with email accounts. Seed phrases and private keys are hidden from users' workflow.
 
-Crescent will develop more methods to log in such as OAuth, OAuth, facial recognition, SMS, etc.
+Crescent will develop more methods to log in such as OAuth, facial recognition, SMS, etc.
 
 ## Gasless, frictionless onboarding and more usage&#x20;
 
