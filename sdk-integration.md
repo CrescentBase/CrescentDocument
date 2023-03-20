@@ -2,9 +2,7 @@
 
 ## Crescent Wallet SDKs
 
-Crescent Wallet supports multi-platform SDK.
-
-&#x20;
+Crescent Wallet supports multi-platform SDK.&#x20;
 
 | SDK         | Status     | Document                                    |
 | ----------- | ---------- | ------------------------------------------- |
@@ -129,7 +127,7 @@ CrescentSDK.disconnect()
 
 1. Deploy your own Paymaster contract
 
-[DeployedBytecode](https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb) and correspond [PaymasterProxy Code](https://github.com/CrescentBase/account-abstraction/blob/main/contracts/core/CrescentPaymasterProxy.sol)
+[DeployedBytecode](https://etherscan.io/tx/0x6e7bbc06925f0f86c90b217909bdcdda4163d65c2222dd287357b3d67bcec7eb) and the corresponding [PaymasterProxy Code](https://github.com/CrescentBase/account-abstraction/blob/main/contracts/core/CrescentPaymasterProxy.sol)
 
 2. Deploy the signature server
 
@@ -216,8 +214,6 @@ export function test() {
     return op;
 }
 ```
-
-&#x20;
 
 3. SDK call example
 
