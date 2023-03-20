@@ -410,7 +410,7 @@ export async function example() {
 }
 ```
 
-3. SDK call example
+4. SDK call example
 
 &#x20;refer to [Initialize the SDK](sdk-integration.md#installation-and-usage)
 
