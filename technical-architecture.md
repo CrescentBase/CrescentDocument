@@ -6,7 +6,7 @@ Note that it's not required to read this chapter to integrate Crescent SDK.
 
 ## Bundler
 
-Bundler packs all UserOperation(UOs) into a normal tx.
+Bundler packs all UserOperations(UOs) into a normal tx.
 
 <figure><img src=".gitbook/assets/4337_workflow.png" alt=""><figcaption></figcaption></figure>
 
@@ -14,8 +14,8 @@ The Bundler calls EntryPoint to package user transactions, validates UserOperati
 
 Main features include:
 
-* eth\_sendUserOperation：send transactions.
-* eth\_estimateUserOperationGas：gas evaluation.
+* eth\_sendUserOperation：Send transactions.
+* eth\_estimateUserOperationGas：Gas evaluation.
 * eth\_getUserOperationReceipt：Get transaction history.
 
 ```solidity
@@ -100,7 +100,7 @@ Paymaster has the following functions and features：
 * Pay gas fees to EntryPoint.
 * Only respond to messages from EntryPoint.
 * Confirm the intention to EntryPoint that pay for a certain UO.
-* Stake in EntryPoint to become a Paymaster
+* Stake in EntryPoint to become a Paymaster.
 * Transfer the desired asset to your Paymaster as funds to pay for UOs.
 * Only after passing the validation of `validatePaymasterUserOp`, Paymaster will pay for users.  Validation is achieved by the preset pubkey set by `constructor` or `setVerifyingSigner()`. The corresponding private key **normally should be stored in your centralised server**, to check and sign paymaster UOs.
 * You can also customise any kind of Paymaster as you want.
@@ -133,7 +133,7 @@ The implementation contract of WalletProxy, delegates the following functions:
 * Pay gas fees to EntryPoint.
 * Only respond to messages from EntryPoint.
 * Execute specific transaction contents from EntryPoint.
-* addOwner: add a user device after passing DKIM verification.
+* addOwner: Add a user device after passing DKIM verification.
 
 ```solidity
 function addOwner(
@@ -191,8 +191,8 @@ Proxy has the ability to upgrade to the latest implementation automatically, whi
 
 A controller defines the latest Implementation address. Wallet in the following situations will set `implementation` address according to this controller:
 
-* A newly created wallet
-* An existing wallet with auto-update enabled
+* A newly created wallet.
+* An existing wallet with auto-update enabled.
 
 ```solidity
     function setImplementation(address _implementation) public onlyOwner {
