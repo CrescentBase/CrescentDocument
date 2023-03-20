@@ -227,7 +227,7 @@ To gain authorization for gas payment, paymaster needs to stake a certain amount
 
 You can unstake and retrieve your staked tokens at any time. To do so, simply call 'unstake'. After 100 seconds, your staked tokens will be unlocked and available for retrieval. Please note that if you unstake paymaster will lose its authorization to pay for gas.
 
-* Gas deposit and withdrawal
+* Gas deposit and withdraw
 
 Gas fees for user transactions will be deducted from the deposit. Paymaster needs to call 'deposit' to store tokens before paying for gas. You can withdraw tokens from the deposit at any time by calling 'withdraw'. Use 'getDeposit' to check the amount of deposit tokens.
 
