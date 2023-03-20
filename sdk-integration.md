@@ -84,7 +84,7 @@ CrescentSdk.getInstance().disconnect();
 
 Notes
 
-The Framworks-Libraries, and Embedded Content should be swicth to"Embed\&Sign" on Xcods.
+The Framworks-Libraries, and Embedded Content should be swicth to"Embed\&Sign" on Xcode.
 
 ```swift
 var config = CrescentConfigure()
