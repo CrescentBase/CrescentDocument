@@ -219,6 +219,197 @@ export function signOp(op, privateKey) {
 }
 </code></pre>
 
+3. Stake and deposit to obtain gas payment authorization
+
+* Stake and Unstake
+
+To gain authorization for gas payment, paymaster needs to stake a certain amount of cryptocurrency to EntryPoint. The minimum amount for staking is 0.01 units of the native currency of the corresponding blockchain.
+
+You can unstake and retrieve your staked tokens at any time. To do so, simply call 'unstake'. After 100 seconds, your staked tokens will be unlocked and available for retrieval. Please note that if you unstake paymaster will lose its authorization to pay for gas.
+
+* Gas deposit and withdrawal
+
+Gas fees for user transactions will be deducted from the deposit. Paymaster needs to call 'deposit' to store tokens before paying for gas. You can withdraw tokens from the deposit at any time by calling 'withdraw'. Use 'getDeposit' to check the amount of deposit tokens.
+
+* Example of Stake and Deposit
+
+```solidity
+import {ethers} from "ethers";
+const paymasterABI = [
+    {
+        "inputs": [
+            {
+                "internalType": "uint32",
+                "name": "extraUnstakeDelaySec",
+                "type": "uint32"
+            }
+        ],
+        "name": "addStake",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "unlockStake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address payable",
+                "name": "withdrawAddress",
+                "type": "address"
+            }
+        ],
+        "name": "withdrawStake",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "deposit",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "address payable",
+                "name": "withdrawAddress",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "amount",
+                "type": "uint256"
+            }
+        ],
+        "name": "withdrawTo",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getDeposit",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    }
+];
+
+
+export async function addStake(provider, paymasterAddress, privateKey) {
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const paymasterStake = ethers.utils.parseEther('0.01');
+
+
+    const contract = new ethers.Contract(paymasterAddress, paymasterABI, wallet);
+    try {
+        const txAddStake = await contract.addStake(0, { value: paymasterStake });
+        await txAddStake.wait();
+    } catch {}
+}
+
+
+export async function unlockStake(provider, paymasterAddress, privateKey) {
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contract = new ethers.Contract(paymasterAddress, paymasterABI, wallet);
+    try {
+        const txUnlockStake = await contract.unlockStake();
+        await txUnlockStake.wait();
+    } catch {}
+}
+
+
+export async function withdrawStake(provider, paymasterAddress, privateKey, withdrawAddress) {
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contract = new ethers.Contract(paymasterAddress, paymasterABI, wallet);
+    try {
+        const txWithdrawStake = await contract.withdrawStake(withdrawAddress);
+        await txWithdrawStake.wait();
+    } catch {}
+}
+
+
+
+
+export async function deposit(provider, paymasterAddress, privateKey, ether) {
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const depositEther = ethers.utils.parseEther(ether);
+
+
+    const contract = new ethers.Contract(paymasterAddress, paymasterABI, wallet);
+    try {
+        const txDeposit = await contract.deposit({ value: depositEther });
+        await txDeposit.wait();
+    } catch {}
+}
+
+
+
+
+export async function getDeposit(provider, paymasterAddress) {
+    const contract = new ethers.Contract(paymasterAddress, paymasterABI, provider);
+    try {
+        return await contract.getDeposit();
+    } catch {}
+    return undefined;
+}
+
+
+export async function withdrawTo(provider, paymasterAddress, privateKey, withdrawAddress, amount) {
+    const wallet = new ethers.Wallet(privateKey, provider);
+    const contract = new ethers.Contract(paymasterAddress, paymasterABI, wallet);
+
+
+    try {
+        const txWithdrawTo = await contract.withdrawTo(withdrawAddress, amount);
+        await txWithdrawTo.wait();
+    } catch {}
+}
+
+
+export async function example() {
+    //The node address corresponding to the chain.
+    const rpc = "rpc url";
+    const provider = new ethers.providers.JsonRpcProvider(rpc);
+
+
+    //your paymaster address
+    const paymasterAddress = "0x...";
+    //The private key that you use to addStake.
+    const privateKey = "...";
+
+
+    //stake
+    await addStake(provider, paymasterAddress, privateKey);
+
+
+    //Staking on-demand, the unit of staked tokens is wei.
+    const ether = "1";
+
+
+    //deposit
+    await deposit(provider, paymasterAddress, privateKey, ether);
+
+
+    //getDeposit
+    await getDeposit(provider, paymasterAddress);
+}
+```
+
 3. SDK call example
 
 &#x20;refer to [Initialize the SDK](sdk-integration.md#installation-and-usage)
