@@ -209,7 +209,7 @@ export function signOp(op, privateKey) {
 <strong>
 </strong>export function test() {
     const op = { ... };
-    // privateKey is the EOA address PrivateKey that you deployed Paymaster Contract
+    // privateKey is the corresponding private key of the EOA that deployed Paymaster contract
     const privateKey = "....";
     //your paymaster address
     op.paymaster = "0x...";
