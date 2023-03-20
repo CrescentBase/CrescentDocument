@@ -82,6 +82,10 @@ CrescentSdk.getInstance().disconnect();
 1. Add the `CrescentSDK.framework` to the project.
 2. Initialize the SDK
 
+Notes
+
+The Framworks-Libraries, and Embedded Content should be swicth to"Embed\&Sign" on Xcods.
+
 ```swift
 var config = CrescentConfigure()
      config.style = "" //Custom Styles
@@ -161,8 +165,7 @@ Response: { data:{ .... }  }
 
 * Example of signature server
 
-```solidity
-//"ethers": "^5.4.1",
+<pre class="language-solidity"><code class="lang-solidity">//"ethers": "^5.4.1",
 import {defaultAbiCoder, keccak256} from "ethers/lib/utils.js";
 //"web3": "^1.3.4",
 import Web3 from "web3";
@@ -192,8 +195,7 @@ export function getHash(op) {
         op.paymaster
     ]));
 }
- 
- 
+
 export function sign(privateKey, data) {
     const signature = new Web3().eth.accounts.sign(data, privateKey);
     return signature.signature;
@@ -204,8 +206,10 @@ export function signOp(op, privateKey) {
     return sign(privateKey, data);
 }
  
-export function test() {
+<strong>
+</strong>export function test() {
     const op = { ... };
+    // privateKey is the EOA address PrivateKey that you deployed Paymaster Contract
     const privateKey = "....";
     //your paymaster address
     op.paymaster = "0x...";
@@ -213,7 +217,7 @@ export function test() {
     op.paymasterData = signature;
     return op;
 }
-```
+</code></pre>
 
 3. SDK call example
 
