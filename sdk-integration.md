@@ -14,7 +14,7 @@ Crescent Wallet supports multi-platform SDK.&#x20;
 
 #### **Installation and Usage**
 
-1. Put crescent-sdk.aar into the libs folder of the project.
+1. Put `crescent-sdk.aar` into the `libs` folder of the project.
 2. Initialize the SDK
 
 ```javascript
@@ -79,7 +79,7 @@ CrescentSdk.getInstance().disconnect();
 
 #### **Installation and Usage**
 
-1. Add the CrescentSDK.framework to the project.
+1. Add the `CrescentSDK.framework` to the project.
 2. Initialize the SDK
 
 ```swift
