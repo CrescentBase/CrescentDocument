@@ -4,7 +4,7 @@
 
 Crescent Wallet supports multi-platform SDK.&#x20;
 
-| SDK         | Status     | Document                                                              |
+| SDK         | Status     | Source                                                                |
 | ----------- | ---------- | --------------------------------------------------------------------- |
 | Android SDK | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
 | iOS SDK     | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
