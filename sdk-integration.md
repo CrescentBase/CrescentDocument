@@ -225,11 +225,11 @@ export function signOp(op, privateKey) {
 
 To gain authorization for gas payment, paymaster needs to stake a certain amount of cryptocurrency to EntryPoint. The minimum amount for staking is 0.01 units of the native currency of the corresponding blockchain.
 
-You can unstake and retrieve your staked tokens at any time. To do so, simply call 'unstake'. After 100 seconds, your staked tokens will be unlocked and available for retrieval. Please note that if you unstake paymaster will lose its authorization to pay for gas.
+You can unstake and retrieve your staked tokens at any time. To do so, simply call `unstake`. After 100 seconds, your staked coins will be unlocked and available for retrieval. Please note that if you unstake, paymaster will lose its authorization to pay for gas.
 
 * Gas deposit and withdraw
 
-Gas fees for user transactions will be deducted from the deposit. Paymaster needs to call 'deposit' to store tokens before paying for gas. You can withdraw tokens from the deposit at any time by calling 'withdraw'. Use 'getDeposit' to check the amount of deposit tokens.
+Gas fees for user transactions will be deducted from the deposit. Paymaster needs to call `deposit` to store coins/tokens before paying for gas. You can withdraw them from the deposit at any time by calling 'withdraw'. Use `getDeposit` to check the amount of deposit.
 
 * Example of Stake and Deposit
 
