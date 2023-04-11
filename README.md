@@ -8,9 +8,14 @@ Crescent has a client app that users can use directly, and also SDKs designed fo
 
 <figure><img src=".gitbook/assets/WechatIMG1025.jpeg" alt=""><figcaption></figcaption></figure>
 
-## Keyless, no seed phrase and private key
+## Keyless & Account Recovery
 
 Users log in with email accounts. Seed phrases and private keys are hidden from users' workflow.
+
+Crescent developed a fully decentralised on-chain Email DKIM verification system:
+
+* Users keep control of their blockchain accounts through their emails
+* The relationship between email address and blockchain address is completely hidden by ZKP
 
 Crescent will develop more methods to log in such as OAuth, facial recognition, SMS, etc.
 
