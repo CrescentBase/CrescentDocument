@@ -118,7 +118,10 @@ Paymaster is upgradeable because of its proxy design.
 
 ## Wallet Contracts
 
-Crescent wallet contracts use proxy contract architecture.&#x20;
+Crescent wallet contracts use **triple proxy contract** architecture, which ensures:
+
+* Upgradability of the users' wallet contract
+* Decentralisation, a user can decide whether to upgrade his wallet contract
 
 There are three wallet contracts:
 
