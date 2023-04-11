@@ -1,5 +1,7 @@
 # SDK UI Guide
 
+Note: you can use the SDK without our UI completely by just calling APIs. This article is for the devs who want a customisable UI.
+
 ## Overview&#x20;
 
 To ensure visual consistency, we use a specific color palette to define colors and provide a consistent visual experience for the products you build. This color palette can be used to efficiently adjust the appearance of components or create your own themes to meet diverse visual needs for business and branding, including but not limited to global styles (colors, images). We provide black-and-white preset themes by default, and you can quickly generate different styles of themes by modifying parameters.
@@ -122,4 +124,3 @@ Empty Placeholder
 
 ![](<.gitbook/assets/06-基于白色主题修改-空状态 (1).png>)
 
-****
