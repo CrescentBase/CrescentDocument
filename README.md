@@ -14,8 +14,9 @@ Users log in with email accounts. Seed phrases and private keys are hidden from 
 
 Crescent developed a fully decentralised on-chain Email DKIM verification system:
 
-* Users keep control of their blockchain accounts through their emails
-* The relationship between email address and blockchain address is completely hidden by ZKP
+* Crescent doesn't keep the private key online, instead it's only stored on the user's device.
+* Users keep control of their blockchain accounts through their emails. When login via email on a new device, which means there's no private key for the account, the wallet client will automatically send a recovery email from the user's email address to add a new private key on the smart contract, which is newly generated and stored locally too. The old one can also be deleted optionally.
+* The relationship between email addresses and blockchain addresses is completely hidden by ZKP.&#x20;
 
 Crescent will develop more methods to log in such as OAuth, facial recognition, SMS, etc.
 
