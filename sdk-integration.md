@@ -134,9 +134,9 @@ CrescentSDK.disconnect()
 ```javascript
 const params = {
 
-    container: element, //Parent control
+    container: element, //parent container
 
-    paymasterUrl: "https://wallet.crescentbase.com/api/v2/signOp",
+    paymasterUrl: "https://...", //Paymaster Address
 
     onConnectSuccess: (info) => {
 
@@ -157,9 +157,9 @@ CrescentSDK.connect(params);
 //Send transaction
 const params = {
 
-    container: element, //Parent control
+    container: element, //parent container
 
-    paymasterUrl: "https://wallet.crescentbase.com/api/v1/signOp",
+    paymasterUrl: "https://...", //Paymaster Address
 
     onSendSuccess: (txHash) => {
 
