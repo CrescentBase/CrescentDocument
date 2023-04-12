@@ -4,12 +4,12 @@
 
 Crescent Wallet supports multi-platform SDK.&#x20;
 
-| **Platform** | **Status** | **Source**                                                            |
-| ------------ | ---------- | --------------------------------------------------------------------- |
-| Android SDK  | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
-| iOS SDK      | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
-| Unity SDK    | Developing | Developing                                                            |
-| Web SDK      | Developing | Developing                                                            |
+| **Platform**                                  | **Status** | **Source**                                                            |
+| --------------------------------------------- | ---------- | --------------------------------------------------------------------- |
+| [Android SDK](sdk-integration.md#android-sdk) | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
+| [iOS SDK](sdk-integration.md#ios-sdk)         | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
+| [Web SDK](sdk-integration.md#web-sdk)         | Done       | [Demo](https://sdk.crescentbase.com/)                                 |
+| Unity SDK                                     | Developing | Developing                                                            |
 
 ### &#x20;Android SDK
 
@@ -124,6 +124,72 @@ var tx = TransactionInfo()
 
 ```swift
 CrescentSDK.disconnect()
+```
+
+### Web SDK
+
+1. Add js: `https://sdk.crescentbase.com/index.bundle.js`
+2. Connect wallet
+
+```javascript
+const params = {
+
+    container: element, //Parent control
+
+    paymasterUrl: "https://wallet.crescentbase.com/api/v2/signOp",
+
+    onConnectSuccess: (info) => {
+
+        const email = info.email;
+
+        const address = info.address;
+
+    },
+
+}
+
+CrescentSDK.connect(params);
+```
+
+3. Send transaction
+
+```javascript
+//Send transaction
+const params = {
+
+    container: element, //Parent control
+
+    paymasterUrl: "https://wallet.crescentbase.com/api/v1/signOp",
+
+    onSendSuccess: (txHash) => {
+
+        console.log('txHash: ', txHash)
+
+    },
+
+    tx: {to: '0x0648ceA573a37aD78738c9ED861dD8Ad9Ca53beC', chainId: 137, value: '0x2386f26fc10000'}
+
+}
+
+CrescentSDK.connect(params);
+```
+
+4. Logout
+
+```javascript
+//Logout
+CrescentSDK.logout();
+```
+
+5. Fiat OnRamp
+
+```javascript
+//fiat OnRamp
+const params = {
+    walletAddress: '0x0648ceA573a37aD78738c9ED861dD8Ad9Ca53beC'
+}
+// If using the wallet address of crescent sdk, no parameters are required
+CrescentSDK.fiatOnRamp(params); 
 ```
 
 ## General Usage
