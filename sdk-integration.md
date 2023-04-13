@@ -128,6 +128,8 @@ CrescentSDK.disconnect()
 
 ### Web SDK
 
+<figure><img src=".gitbook/assets/微信图片_20230413180252.jpg" alt=""><figcaption><p>Crescent Web SDK</p></figcaption></figure>
+
 1. Add js: `https://sdk.crescentbase.com/index.bundle.js`
 2. Connect wallet
 
