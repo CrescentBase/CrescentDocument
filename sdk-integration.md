@@ -220,71 +220,131 @@ Response: { data:{ .... }  }
 "nonce": "0x......f0",
 "initCode": "0x......12",
 "callData": "0x......00",
-"callGas": "2000000",
-"verificationGas": "1000000",
+"callGasLimit": "2000000",
+"verificationGasLimit": "1000000",
 "preVerificationGas": "21000",
 "maxFeePerGas": "1199460050",
 "maxPriorityFeePerGas": "1000000000",
-"paymaster": "0x......70",
-"paymasterData": "0x......1c",
+"paymasterAndData": "0x...",
 "signature": "0x"
 ```
 
 * Example of signature server
 
-<pre class="language-solidity"><code class="lang-solidity">//"ethers": "^5.4.1",
-import {defaultAbiCoder, keccak256} from "ethers/lib/utils.js";
+```solidity
 //"web3": "^1.3.4",
 import Web3 from "web3";
- 
-export function getHash(op) {
-    return keccak256(defaultAbiCoder.encode([
-        'address', // sender
-        'uint256', // nonce
-        'bytes32', // initCode
-        'bytes32', // callData
-        'uint256', // callGas
-        'uint', // verificationGas
-        'uint', // preVerificationGas
-        'uint256', // maxFeePerGas
-        'uint256', // maxPriorityFeePerGas
-        'address' // paymaster
-    ], [
-        op.sender,
-        op.nonce,
-        keccak256(op.initCode),
-        keccak256(op.callData),
-        op.callGas,
-        op.verificationGas,
-        op.preVerificationGas,
-        op.maxFeePerGas,
-        op.maxPriorityFeePerGas,
-        op.paymaster
-    ]));
+//"ethers": "^5.4.1",
+import {ethers} from "ethers";
+import {hexConcat} from "ethers/lib/utils";
+
+export async function getPaymasterHash(rpcUrl, paymasterAddress, op) {
+    const abi_Paymaster = `
+         {
+            "inputs": [
+                {
+                    "components": [
+                        {
+                            "internalType": "address",
+                            "name": "sender",
+                            "type": "address"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "nonce",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "bytes",
+                            "name": "initCode",
+                            "type": "bytes"
+                        },
+                        {
+                            "internalType": "bytes",
+                            "name": "callData",
+                            "type": "bytes"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "callGasLimit",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "verificationGasLimit",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "preVerificationGas",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "maxFeePerGas",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "uint256",
+                            "name": "maxPriorityFeePerGas",
+                            "type": "uint256"
+                        },
+                        {
+                            "internalType": "bytes",
+                            "name": "paymasterAndData",
+                            "type": "bytes"
+                        },
+                        {
+                            "internalType": "bytes",
+                            "name": "signature",
+                            "type": "bytes"
+                        }
+                    ],
+                    "internalType": "struct UserOperation",
+                    "name": "userOp",
+                    "type": "tuple"
+                }
+            ],
+            "name": "getHash",
+            "outputs": [
+                {
+                    "internalType": "bytes32",
+                    "name": "",
+                    "type": "bytes32"
+                }
+            ],
+            "stateMutability": "view",
+            "type": "function"
+        }
+
+    const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
+    const contract = new ethers.Contract(paymasterAddress, abi_Paymaster, provider);
+    return await contract.getHash(op);
 }
 
-export function sign(privateKey, data) {
-    const signature = new Web3().eth.accounts.sign(data, privateKey);
+
+export function sign(hash, privateKey) {
+    const signature = new Web3().eth.accounts.sign(hash, privateKey);
     return signature.signature;
 }
- 
-export function signOp(op, privateKey) {
-    const data = getHash(op);
-    return sign(privateKey, data);
-}
- 
-<strong>
-</strong>export function test() {
+
+
+export async function test() {
     const op = { ... };
     // privateKey is the corresponding private key of the EOA that deployed Paymaster contract
     const privateKey = "....";
+    //target chain url
+    const rpcUrl = "...";
     //your paymaster address
-    op.paymaster = "0x...";
-    const signature = signOp(op, privateKey);
-    op.paymasterData = signature;
+    const paymaster = "0x...";
+    //Get hash by paymaster contract
+    const hash = await getPaymasterHash(rpcUrl, paymaster, op);
+    //Concat paymaster and sign hash
+    op.paymasterAndData = hexConcat([paymaster, sign(hash, privateKey)]);
     return op;
 }
-</code></pre>
+
+```
 
 3. Stake and deposit to obtain gas payment authorization
 
@@ -292,7 +352,7 @@ export function signOp(op, privateKey) {
 
 To gain authorization for gas payment, paymaster needs to stake a certain amount of cryptocurrency to EntryPoint. The minimum amount for staking is 0.01 units of the native currency of the corresponding blockchain.
 
-You can unstake and retrieve your staked tokens at any time. To do so, simply call `unstake`. After 100 seconds, your staked coins will be unlocked and available for retrieval. Please note that if you unstake, paymaster will lose its authorization to pay for gas.
+You can unstake and retrieve your staked tokens at any time. To do so, simply call `unstake`. After 100 seconds, your staked tokens will be unlocked and available for retrieval. Please note that if you unstake, paymaster will lose its authorization to pay for gas.
 
 * Gas deposit and withdraw
 

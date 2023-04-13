@@ -54,7 +54,11 @@ async handleMethod(method, params) {
 
 ## EntryPoint Contract
 
-EntryPoint is the core entry point for all functionalities. Each project deploys their own EntryPoint. Bundler, Wallet, and Paymaster all need to work around EntryPoint.
+EntryPoint: Is the core entry point for all functionalities. Each project deploys its own EntryPoint. Bundler, Wallet, and Paymaster all need to work with EntryPoint.
+
+EntryPointController: The controller is used to specify the address of the latest EntryPoint contract.
+
+### EntryPoint
 
 <figure><img src=".gitbook/assets/零知识证明加密.jpg" alt=""><figcaption><p>Crescent 4337 Contracts Architecture</p></figcaption></figure>
 
@@ -67,22 +71,26 @@ Main features include:
 * simulateValidation：Simulate user transactions and validate UO off-chain.
 
 ```solidity
-    function simulateValidation(UserOperation calldata userOp) external returns (uint256 preOpGas, uint256 prefund) {
-        uint256 preGas = gasleft();
-
-
-        bytes32 requestId = getRequestId(userOp);
-        (prefund,,) = _validatePrepayment(0, userOp, requestId);
-        preOpGas = preGas - gasleft() + userOp.preVerificationGas;
+    function simulateValidation(UserOperation calldata userOp) external {
+        UserOpInfo memory outOpInfo;
         
-        revert ValidationResult(preOpGas, prefund);
-    }
+        _simulationOnlyValidations(userOp);
+        (uint256 validationData, uint256 paymasterValidationData) = _validatePrepayment(0, userOp, outOpInfo);
+        StakeInfo memory paymasterInfo = _getStakeInfo(outOpInfo.mUserOp.paymaster);
+        StakeInfo memory senderInfo = _getStakeInfo(outOpInfo.mUserOp.sender);
+        StakeInfo memory factoryInfo;
+        {
+            bytes calldata initCode = userOp.initCode;
+            address factory = initCode.length >= 20 ? address(bytes20(initCode[0 : 20])) : address(0);
+            factoryInfo = _getStakeInfo(factory);
+         }
+
 ```
 
 * handleOPs：Package compliant UOs and submit them on-chain.
 
 ```solidity
-    function handleOps(UserOperation[] calldata ops, address payable beneficiary) public {
+    function handleOps(UserOperation[] calldata ops, address payable beneficiary) public nonReentrant {
 
         uint256 opslen = ops.length;
         UserOpInfo[] memory opInfos = new UserOpInfo[](opslen);
@@ -90,6 +98,31 @@ Main features include:
 ```
 
 It will create a new wallet for the user according to EIP-2470 if the user's wallet address has not been created.
+
+### EntryPointController
+
+The controller is used to specify the address of the latest EntryPoint contract.
+
+Main features include:
+
+* setEntryPoint: Specifies the address of the latest EntryPoint contract.
+
+```solidity
+   function setEntryPoint(address _entryPoint) public onlyOwner {
+        require(_entryPoint != address(0), "invalid entryPoint");
+        emit EntryPointChanged(entryPoint, _entryPoint);
+        
+        entryPoint = _entryPoint;
+}
+```
+
+* getEntryPoint：Get the current EntryPoint contract address.
+
+```solidity
+    function getEntryPoint() public view returns (address) {
+        return entryPoint;
+    }
+```
 
 ## Paymaster Contract
 
@@ -139,36 +172,39 @@ The implementation contract of WalletProxy, delegates the following functions:
 * addOwner: Add a user device after passing DKIM verification.
 
 ```solidity
-function addOwner(
+    function addOwner(
         address owner,
         VerifierInfo calldata info
     ) external onlyEntryPoint {
-        bytes memory modulus = dkimManager.dkim(info.ds);
-        require(modulus.length != 0, "Not find modulus!");
-        require(IVerifier(dkimVerifier).verifier(owner, modulus, info), "Verification failed!");
         require(allOwner.length < type(uint16).max, "Too many owners");
+        require(owners[owner] == 0, "Owner already exists");
+        IVerifier(dkimVerifier).verifier(owner, hmua, info);
         uint16 index = uint16(allOwner.length + 1);
         allOwner.push(owner);
         owners[owner] = index;
     }
+
 ```
 
 * `_validateSignature()`: Verify if the signature is valid, and only proceed with subsequent operations if it is.
 
 ```solidity
- function _validateSignature(UserOperation calldata userOp, bytes32 requestId) internal view override {
-        //0x350bddaa addOwner
-        bool isAddOwner = bytes4(userOp.callData) == 0x350bddaa;
+    function _validateSignature(UserOperation calldata userOp, bytes32 userOpHash)
+    internal override virtual returns (uint256 validationData) {
+        bool isAddOwner = bytes4(userOp.callData) == this.addOwner.selector;
         if (userOp.initCode.length != 0 && !isAddOwner) {
-            revert("wallet: not allow");
+            // revert("wallet: not allow");
+            return SIG_VALIDATION_FAILED;
         }
-
 
         if (!isAddOwner) {
-            bytes32 hash = requestId.toEthSignedMessageHash();
+            bytes32 hash = userOpHash.toEthSignedMessageHash();
             address signatureAddress = hash.recover(userOp.signature);
-            require(owners[signatureAddress] > 0, "wallet: wrong signature");
+            if (owners[signatureAddress] <= 0) {
+                return SIG_VALIDATION_FAILED;
+            }
         }
+        return 0;
     }
 ```
 
@@ -177,15 +213,15 @@ function addOwner(
 Proxy has the ability to upgrade to the latest implementation automatically, which is disabled by default to avoid any kind of malicious attack from any side including us.
 
 ```solidity
-    // Manually upgrade to new impl
+     // Manually upgrade to new impl
     function upgradeDelegate(address newDelegateAddress) public {
-        require(msg.sender == _getAdmin());
+        require(msg.sender == getEntryPoint());
         _upgradeTo(newDelegateAddress);
     }
 
     // Toggle auto update feature. The default value is false.
     function setAutoUpdateImplementation(bool value) public {
-        require(msg.sender == _getAdmin());
+        require(msg.sender == getEntryPoint());
         StorageSlot.getBooleanSlot(_AUTO_UPDATE_SLOT).value = value;
     }
 ```
@@ -199,8 +235,10 @@ A controller defines the latest Implementation address. Wallet in the following 
 
 ```solidity
     function setImplementation(address _implementation) public onlyOwner {
+        require(_implementation != address(0), "invalid implementation");
         implementation = _implementation;
     }
+
 ```
 
 ## DKIM ZKP Verification
@@ -262,39 +300,180 @@ contract DKIMManager is Ownable {
 
 ### DKIM Verifier Contract
 
-All ZKP, cryptographic and verification functions are in this contract. Operations such as adding a new pub key for a wallet, require calling this contract to be verified. Verification success proves that the action was initiated by the account owner's email.
+DKIMVerifier contracts use proxy contract architecture. There are 4 wallet contracts:
 
-We divided the verifier into plain solidity verifier and ZKP solidity verifier.
+1. **DKIMVerifier**
+
+The implementation contract of DKIMVerifierProxy delegates the following functions: adding a new public key for a wallet requires verification by calling this contract. Verification success proves that the action was initiated by the account owner's email.
+
+2. **ProofVerifier**
+
+All ZKP functions are in this contract. Called by DKIMVerifier contract.
+
+3. **SolRsaVerify**
+
+All RSA cryptographic functions are in this contract. Called by DKIMVerifier contract.
+
+4. **DKIMVerifierProxy**
+
+The proxy has the ability to upgrade to the latest implementation, but only supports manual upgrade.
 
 <figure><img src=".gitbook/assets/image (1).png" alt=""><figcaption></figcaption></figure>
+
+#### **DKIMVerifier**
+
+The implementation contract of DKIMVerifierProxy delegates the following functions:
+
+* Operations, such as adding a new public key for a wallet, require calling this contract to be verified. Verification success proves that the action was initiated by the account owner's email.
+* Call ProofVerifier to implement Zero-Knowledge Proof (ZKP) functions.
+* Call SolRsaVerify to implement RSA functions.
 
 All parameters go through this `verifier` function. `verifyProof` will call the ZKP verifier and the rest are plain solidity logic.
 
 ```solidity
-   function verifier(
+    function verifier(
         address publicKey,
-        bytes memory modulus,
+        bytes32 hmua,
         VerifierInfo calldata info
-    ) external view returns (bool)  {
-        uint[] memory input = getInput(info.hmua, info.bh, info.base);
+    ) external view {
+        bytes memory modulus = IDKIMManager(dkimManager).dkim(info.ds);
+        require(modulus.length != 0, "Not find modulus!");
+
+        uint[] memory input = getInput(hmua, info.bh, info.base);
         //ZKP Verifier
-        if (!verifyProof(info.a, info.b, info.c, input)) {
-            return false;
-        }
+        require(IProofVerifier(proofVerifier).verifyProof(info.a, info.b, info.c, input), "Invalid Proof");
+
         //bh(bytes) == base64(sha1/sha256(Canon-body))
-        if (!equalBase64(info.bh, info.body)) {
-            return false;
-        }
+        require(equalBase64(info.bh, info.body), "bh != sha(body)");
+
         //Operation ∈ Canon-body
-        if (!containsAddress(publicKey, info.body)) {
-            return false;
-        }
+        require(containsAddress(publicKey, info.body), "no pubkey in body");
+
         //b == RSA(base)
-        if (!sha256Verify(info.base, info.rb, info.e, modulus)) {
-            return false;
-        }
-        return true;
+        require(verifyRsa(info.base, info.rb, info.e, modulus), "b != rsa(base)");
     }
 ```
 
 Full details, circuits, desgin rationale see [https://github.com/CrescentBase/DKIM-Example](https://github.com/CrescentBase/DKIM-Example).
+
+#### **ProofVerifier Contract**
+
+All ZKP functions are in this contract. Called by DKIMVerifier contract.
+
+```solidity
+function verifyProof(
+            uint[2] memory a,
+            uint[2][2] memory b,
+            uint[2] memory c,
+            uint[] memory input
+        ) public view returns (bool r) {
+        Proof memory proof;
+        proof.A = Pairing.G1Point(a[0], a[1]);
+        proof.B = Pairing.G2Point([b[0][0], b[0][1]], [b[1][0], b[1][1]]);
+        proof.C = Pairing.G1Point(c[0], c[1]);
+        uint[] memory inputValues = new uint[](input.length);
+        for(uint i = 0; i < input.length; i++){
+            inputValues[i] = input[i];
+        }
+        if (verify(inputValues, proof) == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+```
+
+#### **SolRsaVerify Contract**
+
+All Rsa cryptographic functions are in this contract. Called by DKIMVerifier contract.
+
+```solidity
+function pkcs1Sha256Verify(
+        bytes32 _sha256,
+        bytes memory _s, bytes memory _e, bytes memory _m
+    ) public view returns (uint) {
+        
+        uint8[19] memory sha256Prefix = [
+            0x30, 0x31, 0x30, 0x0d, 0x06, 0x09, 0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01, 0x05, 0x00, 0x04, 0x20
+        ];
+        
+      	require(_m.length >= sha256Prefix.length+_sha256.length+11);
+
+
+        uint i;
+
+
+        /// decipher
+        bytes memory input = join(_s,_e,_m);
+        uint inputlen = input.length;
+
+
+        uint decipherlen = _m.length;
+        bytes memory decipher = new bytes(decipherlen);
+        assembly {
+            pop(staticcall(sub(gas(), 2000), 5, add(input,0x20), inputlen, add(decipher,0x20), decipherlen))
+	}
+        
+        /// 0x00 || 0x01 || PS || 0x00 || DigestInfo
+        /// PS is padding filled with 0xff
+        //  DigestInfo ::= SEQUENCE {
+        //     digestAlgorithm AlgorithmIdentifier,
+        //     digest OCTET STRING
+        //  }
+        
+        uint paddingLen = decipherlen - 3 - sha256Prefix.length - 32;
+        
+        if (decipher[0] != 0 || uint8(decipher[1]) != 1) {
+            return 1;
+        }
+        for (i = 2;i<2+paddingLen;i++) {
+            if (decipher[i] != 0xff) {
+                return 2;
+            }
+        }
+        if (decipher[2+paddingLen] != 0) {
+            return 3;
+        }
+        for (i = 0;i<sha256Prefix.length;i++) {
+            if (uint8(decipher[3+paddingLen+i])!=sha256Prefix[i]) {
+                return 4;
+            }
+        }
+        for (i = 0;i<_sha256.length;i++) {
+            if (decipher[3+paddingLen+sha256Prefix.length+i]!=_sha256[i]) {
+                return 5;
+            }
+        }
+
+
+        return 0;
+    }
+
+
+    /** @dev Verifies a PKCSv1.5 SHA256 signature
+      * @param _data to verify
+      * @param _s is the signature
+      * @param _e is the exponent
+      * @param _m is the modulus
+      * @return 0 if success, >0 otherwise
+    */    
+    function pkcs1Sha256VerifyRaw(
+        bytes memory _data, 
+        bytes memory _s, bytes memory _e, bytes memory _m
+    ) public view returns (uint) {
+        return pkcs1Sha256Verify(sha256(_data),_s,_e,_m);
+    }
+```
+
+#### **DKIMVerifierProxy Contract**
+
+The proxy has the ability to upgrade to the latest implementation but only supports manual upgrades.
+
+```solidity
+function upgradeDelegate(address newImplementation) public {
+        require(msg.sender == _getAdmin());
+        _upgradeTo(newImplementation);
+    }
+}
+```
+
