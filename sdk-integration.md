@@ -4,7 +4,7 @@
 
 Crescent Wallet supports multi-platform SDK.&#x20;
 
-| **Platform**                                  | **Status** | **Source**                                                            |
+| **Platform**                                  | **Status** | **Download \| Demo**                                                  |
 | --------------------------------------------- | ---------- | --------------------------------------------------------------------- |
 | [Android SDK](sdk-integration.md#android-sdk) | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
 | [iOS SDK](sdk-integration.md#ios-sdk)         | Done       | [Download](https://github.com/CrescentBase/CrescentDocument/releases) |
@@ -129,6 +129,8 @@ CrescentSDK.disconnect()
 ### Web SDK
 
 <figure><img src=".gitbook/assets/微信图片_20230413180252.jpg" alt=""><figcaption><p>Crescent Web SDK</p></figcaption></figure>
+
+#### Integration and Usage
 
 1. Add js: `https://sdk.crescentbase.com/index.bundle.js`
 2. Connect wallet
