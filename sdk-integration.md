@@ -135,7 +135,7 @@ CrescentSDK.disconnect()
 1. Add js: `https://sdk.crescentbase.com/index.bundle.js`
 2. Connect wallet
 
-googleClientId: Crescent already supports Google login. You need to apply for a client ID and client secret before you can use it. [Here's the application process](sdk-integration.md#obtain-client-id-and-client-secret.).
+googleClientId: Crescent already supports Google login. You need to apply for a client ID and client secret before you can use it. [Here's the application process](sdk-integration.md#supported-oauth-logins).
 
 ```javascript
 const params = {
