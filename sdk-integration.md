@@ -137,22 +137,15 @@ CrescentSDK.disconnect()
 
 ```javascript
 const params = {
-
-    container: element, //parent container
-
-    paymasterUrl: "https://...", //Paymaster Address
-
-    onConnectSuccess: (info) => {
-
-        const email = info.email;
-
-        const address = info.address;
-
-    },
-
-}
-
-CrescentSDK.connect(params);
+      container: element,
+      paymasterUrl: "https://wallet.crescentbase.com/api/v2/signOp",
+      googleClientId: "1033913496793-oncfdcou216ab7msidlvodhkuhka003e.apps.googleusercontent.com",
+      onConnectSuccess: (info) => {
+        const address = info.address;
+        console.log('address:', address);
+      },
+    }
+    CrescentSDK.connect(params);
 ```
 
 3. Send transaction
@@ -548,6 +541,21 @@ export async function example() {
 ```
 config.paymasterUrl = "https://..."; //Paymaster Address
 ```
+
+## Supported OAuth logins
+
+Crescent supports Google login for now and will support more OAuth in the future.
+
+### Google
+
+#### Obtain client ID and Client secret.
+
+1. Register a Google Play developer account.
+2. Open the [Credentials page](https://console.cloud.google.com/apis/credentials?hl=zh-cn).
+3. Click on 'New Project' to creat a new project.
+4. Click on 'Configure Consent Screen' .
+5. Click on 'Create Credentials' and select 'OAuth client ID'.
+6. Choose the application type as 'Web application', fill the information as required .Then you will get client ID and client secret.
 
 ### Customise  UI
 
