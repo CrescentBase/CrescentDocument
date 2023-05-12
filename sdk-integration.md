@@ -559,7 +559,7 @@ Crescent supports Google login for now and will support more OAuth in the future
 5. Click on 'Create Credentials' and select 'OAuth client ID'.
 6. Choose the application type as 'Web application', fill the information as required .Then you will get client ID and client secret.
 
-### Customise  UI
+## Customise  UI
 
 Crescent provides a full-featured UI customisation ability. Please reference the following doc.
 
