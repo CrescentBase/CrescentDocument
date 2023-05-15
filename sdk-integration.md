@@ -128,7 +128,7 @@ CrescentSDK.disconnect()
 
 ### Web SDK
 
-<figure><img src=".gitbook/assets/微信图片_20230413180252.jpg" alt=""><figcaption><p>Crescent Web SDK</p></figcaption></figure>
+<figure><img src=".gitbook/assets/1.png" alt=""><figcaption><p>Access or create your wallet by social account</p></figcaption></figure>
 
 #### Integration and Usage
 
